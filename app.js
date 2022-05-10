@@ -11,6 +11,7 @@ const port = 3000
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
+app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
@@ -48,7 +49,7 @@ app.get('/:short', (req,res) => {
     .then(data => {
       if(!data){
         console.log('not exist short_url')
-        res.redirect('/')
+        res.render('notExist')
       } else {
         res.redirect(`${data.url}`)
       }

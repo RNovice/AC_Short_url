@@ -1,5 +1,8 @@
-<form action="/" method="post">
-  <input class="url" type="text" name="url" value="{{url}}" required>
-  <button type="submit">convert</button>
-</form>
-<a href="{{short}}" target="_blank">{{short}}</a>
+<div class="container">
+  <img class="home-img" src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png" alt="超連結圖示">
+  <form action="/" method="post">
+    <input class="url-input" type="url" name="url" value="{{url}}" placeholder="url here..." required>
+    <button class="convert-btn" type="submit">convert</button>
+  </form>
+    <a class="result" href="{{short}}" target="_blank">{{short}}</a>
+</div>
