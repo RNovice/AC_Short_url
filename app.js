@@ -1,5 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
+const URL = require('./models/url')
+const makeShortCode = require('./utils/shortCoed')
 
 require('./config/mongoose')
 
@@ -16,8 +18,27 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-  console.log(req.body)
-  res.render('index')
+  const url = req.body.url
+  URL.find()
+    .then(data => {
+      const foundData = data.find(existData => existData.url === url)
+      if(foundData){
+        return foundData.short
+      } else {
+        let shortCode = makeShortCode()
+        while (data.find(existData => existData.short === shortCode)){
+          shortCode = makeShortCode()
+        }
+        URL.create({
+          url: url,
+          short: shortCode
+        })
+        return shortCode
+      } 
+    })
+    .then(short => console.log(short))
+
+  res.render('index', { url })
 })
 
 app.listen(port, () => {
