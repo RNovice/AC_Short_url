@@ -41,7 +41,10 @@ app.post('/', (req, res) => {
       const short = req.protocol + '://' + req.headers.host + '/' + shortCode
       res.render('index', { url, short })
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('error', { text: 'something error', linkText: 'go back to shortener', error })
+    })
 })
 
 app.get('/:short', (req,res) => {
@@ -49,10 +52,14 @@ app.get('/:short', (req,res) => {
     .then(data => {
       if(!data){
         console.log('not exist short_url')
-        res.render('notExist')
+        res.render('error', { text: 'url not exist', linkText: 'to make your own' })
       } else {
         res.redirect(`${data.url}`)
       }
+    })
+    .catch(error => {
+      console.log(error)
+      res.render('error', { text: 'something error', linkText: 'go back to shortener', error })
     })
 })
 
