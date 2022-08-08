@@ -6,17 +6,22 @@ const URLs = require('../../models/url')
 
 const makeShortCode = require('../../utils/shortCoed')
 
+//主頁面
 router.get('/', (req, res) => {
   res.render('index')
 })
 
+//產生短網址
 router.post('/', (req, res) => {
   const url = req.body.url
   URLs.find()
     .then(data => {
+      //確認網址是否已存在
       const foundData = data.find(existData => existData.url === url)
+      //已存在即回對應傳短網址
       if(foundData){
         return foundData.short
+       //不存在則創造一組尚未使用的短網址
       } else {
         let shortCode = makeShortCode()
         while (data.find(existData => existData.short === shortCode)){
@@ -35,10 +40,12 @@ router.post('/', (req, res) => {
     })
     .catch(error => {
       console.log(error)
+      res.status(400)
       res.render('error', { text: 'something error', linkText: 'go back to shortener', error })
     })
 })
 
+//轉址
 router.get('/:short', (req,res) => {
   URLs.findOne({short: req.params.short})
     .then(data => {
@@ -51,6 +58,7 @@ router.get('/:short', (req,res) => {
     })
     .catch(error => {
       console.log(error)
+      res.status(400)
       res.render('error', { text: 'something error', linkText: 'go back to shortener', error })
     })
 })
