@@ -24,7 +24,7 @@
 １.在專案資料夾中使用終端機
 
 ```properties
-cd short_URL
+cd 'file name'
 ```
 
 ２.安裝node套件
